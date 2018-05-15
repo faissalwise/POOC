@@ -11,7 +11,7 @@ import org.springframework.messaging.MessageChannel;
 /**
  * @author FIE
  */
-public class PaymentChunkListener extends ItemListenerSupport<Payment, Payment> {
+public class PoliciesChunkListener extends ItemListenerSupport<ExamResult, ExamResult> {
 
 	@Autowired
 	@Qualifier("chunkExecutions")
@@ -23,7 +23,7 @@ public class PaymentChunkListener extends ItemListenerSupport<Payment, Payment> 
 	}
 
 	@Override
-	public void onWriteError(Exception ex, List<? extends Payment> item) {
+	public void onWriteError(Exception ex, List<? extends ExamResult> item) {
 
 	}
 }

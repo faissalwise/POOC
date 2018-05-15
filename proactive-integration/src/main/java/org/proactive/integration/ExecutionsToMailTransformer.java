@@ -1,22 +1,10 @@
-/*
- * Copyright 2012 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.proactive.integration;
 
+import org.proactive.configuration.ProActiveProperties;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.integration.annotation.Transformer;
 import org.springframework.integration.mail.MailHeaders;
 import org.springframework.integration.support.MessageBuilder;
@@ -27,9 +15,20 @@ import org.springframework.messaging.Message;
  */
 public class ExecutionsToMailTransformer {
 
-   @Transformer
-   public Message<String> transformExecutionsToMail(JobExecution jobExecution) {
-      String result = "Execution has ended " + jobExecution.getStatus().toString();
-      return MessageBuilder.withPayload(result).setHeader(MailHeaders.TO, "siia.test@yahoo.ca").setHeader(MailHeaders.FROM, "siia.test@yahoo.ca").build();
-   }
+	@Autowired
+	@Lazy
+	ProActiveProperties proActiveProperties;
+
+	@Transformer
+	public Message<String> transformExecutionsToMail(JobExecution jobExecution) {
+		String result = "Execution has ended " + jobExecution.getStatus().toString();
+		return MessageBuilder.withPayload(result).setHeader(MailHeaders.TO, proActiveProperties.getMail().getTo())
+				.setHeader(MailHeaders.FROM, proActiveProperties.getMail().getFrom()).build();
+
+	}
+
+	public void setProActiveProperties(ProActiveProperties proActiveProperties) {
+		this.proActiveProperties = proActiveProperties;
+	}
+
 }

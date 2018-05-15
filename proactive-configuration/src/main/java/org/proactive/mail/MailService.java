@@ -1,7 +1,5 @@
 package org.proactive.mail;
 
-import java.util.Locale;
-
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.CharEncoding;
@@ -10,16 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
-
-@Component("mailService")
-public class MailService extends JavaMailSenderImpl {
+@Component
+public class MailService {
 
 	private final Logger log = LoggerFactory.getLogger(MailService.class);
 
@@ -29,14 +25,17 @@ public class MailService extends JavaMailSenderImpl {
 
 	private final ProActiveProperties proActiveProperties;
 
+	private final JavaMailSender javaMailSender;
+
 	private final MessageSource messageSource;
 
 	private final SpringTemplateEngine templateEngine;
 
-	public MailService(ProActiveProperties proActiveProperties, MessageSource messageSource,
-			SpringTemplateEngine templateEngine) {
+	public MailService(ProActiveProperties proActiveProperties, JavaMailSender javaMailSender,
+			MessageSource messageSource, SpringTemplateEngine templateEngine) {
 
 		this.proActiveProperties = proActiveProperties;
+		this.javaMailSender = javaMailSender;
 		this.messageSource = messageSource;
 		this.templateEngine = templateEngine;
 	}
@@ -47,14 +46,14 @@ public class MailService extends JavaMailSenderImpl {
 				isHtml, to, subject, content);
 
 		// Prepare message using a Spring helper
-		MimeMessage mimeMessage = createMimeMessage();
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		try {
 			MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, CharEncoding.UTF_8);
 			message.setTo(to);
 			message.setFrom(proActiveProperties.getMail().getFrom());
 			message.setSubject(subject);
 			message.setText(content, isHtml);
-			send(mimeMessage);
+			javaMailSender.send(mimeMessage);
 			log.debug("Sent email to User '{}'", to);
 		} catch (Exception e) {
 			if (log.isDebugEnabled()) {
@@ -65,24 +64,24 @@ public class MailService extends JavaMailSenderImpl {
 		}
 	}
 
-//	@Async
-//	public void sendEmailFromTemplate(User user, String templateName, String titleKey) {
-//		Locale locale = Locale.forLanguageTag(user.getLangKey());
-//		Context context = new Context(locale);
-//		context.setVariable(USER, user);
-//		context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
-//		String content = templateEngine.process(templateName, context);
-//		String subject = messageSource.getMessage(titleKey, null, locale);
-//		sendEmail(user.getEmail(), subject, content, false, true);
-//
-//	}
-
+	// @Async
+	// public void sendEmailFromTemplate(User user, String templateName, String
+	// titleKey) {
+	// Locale locale = Locale.forLanguageTag(user.getLangKey());
+	// Context context = new Context(locale);
+	// context.setVariable(USER, user);
+	// context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
+	// String content = templateEngine.process(templateName, context);
+	// String subject = messageSource.getMessage(titleKey, null, locale);
+	// sendEmail(user.getEmail(), subject, content, false, true);
+	//
+	// }
 
 	@Async
 	public void sendJobEmail(SimpleMailMessage simpleMessage) {
 		log.debug("Sending job email to '{}'", simpleMessage.getTo());
 		sendEmail(simpleMessage.getTo().toString(), simpleMessage.getSubject(), simpleMessage.getText(), false, true);
-		
+
 	}
 
 }

@@ -49,6 +49,7 @@ public interface ProActiveDefault {
 
         String from = "";
         String baseUrl = "";
+        String to = "";
     }
 
     interface Security {

@@ -1,18 +1,24 @@
 package org.proactive.configuration;
 
+import javax.sql.DataSource;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.cors.CorsConfiguration;
 
 /**
- * Properties specific to JHipster.
+ * Properties specific to ProActive.
  *
  * <p>
  * Properties are configured in the application.yml file.
  * </p>
  */
-@ConfigurationProperties(prefix = "procative", ignoreUnknownFields = false)
+@Validated
+@Configuration
+@ConfigurationProperties(prefix = "proactive", ignoreUnknownFields = true)
 public class ProActiveProperties {
 
 	private final Async async = new Async();
@@ -30,8 +36,8 @@ public class ProActiveProperties {
 	private final Metrics metrics = new Metrics();
 
 	private final Logging logging = new Logging();
-	
-	private final Ftp ftp= new Ftp(); 
+
+	private final Ftp ftp = new Ftp();
 
 	private final CorsConfiguration cors = new CorsConfiguration();
 
@@ -70,11 +76,10 @@ public class ProActiveProperties {
 	public CorsConfiguration getCors() {
 		return cors;
 	}
-	
+
 	public Ftp getFtp() {
 		return ftp;
 	}
-
 
 	public static class Async {
 
@@ -256,6 +261,8 @@ public class ProActiveProperties {
 
 		private String baseUrl = ProActiveDefault.Mail.baseUrl;
 
+		private String to = ProActiveDefault.Mail.to;
+
 		public String getFrom() {
 			return from;
 		}
@@ -271,16 +278,25 @@ public class ProActiveProperties {
 		public void setBaseUrl(String baseUrl) {
 			this.baseUrl = baseUrl;
 		}
+
+		public String getTo() {
+			return to;
+		}
+
+		public void setTo(String to) {
+			this.to = to;
+		}
+
 	}
-	
+
 	public static class Ftp {
-		
+
 		private String host = ProActiveDefault.Ftp.host;
 
 		private int port = ProActiveDefault.Ftp.port;
 
 		private String username = ProActiveDefault.Ftp.username;
-		
+
 		private String password = ProActiveDefault.Ftp.password;
 
 		public String getHost() {
@@ -314,7 +330,7 @@ public class ProActiveProperties {
 		public void setPassword(String password) {
 			this.password = password;
 		}
-		
+
 	}
 
 	public static class Security {
@@ -759,5 +775,8 @@ public class ProActiveProperties {
 			}
 		}
 	}
+
+	@Autowired
+	private DataSource dataSource;
 
 }

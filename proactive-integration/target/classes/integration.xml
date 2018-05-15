@@ -22,6 +22,8 @@
 
 	<context:property-placeholder location="classpath:config/ftp-config.properties" />
 
+	<context:component-scan base-package="org.proactive" />
+
 	<bean id="ftpSessionFactory"
 		class="org.springframework.integration.ftp.session.DefaultFtpSessionFactory">
 		<property name="host" value="${ftp.host}" />
@@ -40,7 +42,6 @@
 
 	<int:poller id="poller" default="true" cron="* * * * * ?" />
 
-
 	<ftp:inbound-channel-adapter id="ftpInBound"
 		channel="files" session-factory="ftpSessionFactory" filename-pattern="${ftp.file.pattern}"
 		delete-remote-files="false" remote-directory="${ftp.remote.dir}"
@@ -49,7 +50,7 @@
 	<int:transformer input-channel="files" output-channel="requests">
 		<bean class="org.proactive.integration.FileMessageToJobRequest">
 			<property name="job" ref="importPolicies" />
-			<property name="fileParameterName" value="input.file.name" />
+			<property name="fileParameterName" value="inputFile" />
 		</bean>
 	</int:transformer>
 
@@ -84,12 +85,11 @@
 	</int:router>
 
 	<int:chain input-channel="jobRestarts">
-		<int:delayer id="executionDelayer" default-delay="10000" />
+		<int:delayer id="wait10sec" default-delay="10000" />
 		<int:service-activator>
 			<bean class="org.proactive.integration.JobRestart" />
 		</int:service-activator>
 	</int:chain>
-
 	<int:transformer id="mailBodyTransformer"
 		input-channel="notifiableExecutions" output-channel="mailNotifications">
 		<bean class="org.proactive.integration.ExecutionsToMailTransformer" />
@@ -98,28 +98,13 @@
 	<int-mail:outbound-channel-adapter
 		id="notificationsSender" channel="mailNotifications" mail-sender="mailSender" />
 
-
 	<int-stream:stdout-channel-adapter
-		channel="jobExecutions" />
+		channel="chunkExecutions" />
+		
+	<int-stream:stdout-channel-adapter id="printToConsole" channel="chunkExecutions" auto-startup="true"/>
 
-<!-- 	<int:service-activator input-channel="jobExecutions"> -->
-<!-- 		<bean -->
-<!-- 			class="org.springframework.batch.integration.chunk.ChunkProcessorChunkHandler"> -->
-<!-- 			<property name="chunkProcessor"> -->
-<!-- 				<bean -->
-<!-- 					class="org.springframework.batch.core.step.item.SimpleChunkProcessor"> -->
-<!-- 					<property name="itemWriter"> -->
-<!-- 						<bean class="org.proactive.integration.PoliciesWriter"> -->
-<!-- 							<constructor-arg ref="dataSource" /> -->
-<!-- 						</bean> -->
-<!-- 					</property> -->
-<!-- 					<property name="itemProcessor"> -->
-<!-- 						<bean -->
-<!-- 							class="org.springframework.batch.item.support.PassThroughItemProcessor" /> -->
-<!-- 					</property> -->
-<!-- 				</bean> -->
-<!-- 			</property> -->
-<!-- 		</bean> -->
-<!-- 	</int:service-activator> -->
+	<int:channel id="completeApplication">
+		<int:queue/>
+	</int:channel>	
 
 </beans>

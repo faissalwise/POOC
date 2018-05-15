@@ -1,5 +1,6 @@
 /Users/macbookair/eclipse-workspace/proactive-parent/proactive-integration/src/main/java/org/proactive/integration/PoliciesWriter.java
 /Users/macbookair/eclipse-workspace/proactive-parent/proactive-integration/src/main/java/org/proactive/integration/BackChannelFeederApp.java
+/Users/macbookair/eclipse-workspace/proactive-parent/proactive-integration/src/main/java/org/proactive/integration/PoliciesChunkListener.java
 /Users/macbookair/eclipse-workspace/proactive-parent/proactive-integration/src/main/java/org/proactive/integration/Account.java
 /Users/macbookair/eclipse-workspace/proactive-parent/proactive-integration/src/main/java/org/proactive/integration/FileProcess.java
 /Users/macbookair/eclipse-workspace/proactive-parent/proactive-integration/src/main/java/org/proactive/integration/Notification.java
@@ -9,7 +10,5 @@
 /Users/macbookair/eclipse-workspace/proactive-parent/proactive-integration/src/main/java/org/proactive/integration/ProActiveConstants.java
 /Users/macbookair/eclipse-workspace/proactive-parent/proactive-integration/src/main/java/org/proactive/integration/ExamResult.java
 /Users/macbookair/eclipse-workspace/proactive-parent/proactive-integration/src/main/java/org/proactive/integration/ExecutionsToMailTransformer.java
-/Users/macbookair/eclipse-workspace/proactive-parent/proactive-integration/src/main/java/org/proactive/integration/PaymentChunkListener.java
-/Users/macbookair/eclipse-workspace/proactive-parent/proactive-integration/src/main/java/org/proactive/integration/Payment.java
-/Users/macbookair/eclipse-workspace/proactive-parent/proactive-integration/src/main/java/org/proactive/integration/PaymentFieldSetMapper.java
 /Users/macbookair/eclipse-workspace/proactive-parent/proactive-integration/src/main/java/org/proactive/integration/FileProcessHandler.java
+/Users/macbookair/eclipse-workspace/proactive-parent/proactive-integration/src/main/java/org/proactive/integration/PoliciesFieldSetMapper.java

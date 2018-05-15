@@ -21,19 +21,19 @@ import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.validation.BindException;
 
 /**
- * @author Marius Bogoevici
+ * @author 
  */
-public class PaymentFieldSetMapper implements FieldSetMapper<Payment> {
+public class PoliciesFieldSetMapper implements FieldSetMapper<ExamResult> {
 
     @Override
-    public Payment mapFieldSet(FieldSet fieldSet) throws BindException {
-       Payment payment = new Payment();
+    public ExamResult mapFieldSet(FieldSet fieldSet) throws BindException {
+    	ExamResult payment = new ExamResult();
 
-       payment.setSourceAccountNo(fieldSet.readString("source"));
-       payment.setDestinationAccountNo(fieldSet.readString("destination"));
-       payment.setAmount(fieldSet.readBigDecimal("amount"));
-       payment.setDate(fieldSet.readDate("date"));
+//       payment.setSourceAccountNo(fieldSet.readString("source"));
+//       payment.setDestinationAccountNo(fieldSet.readString("destination"));
+//       payment.setAmount(fieldSet.readBigDecimal("amount"));
+//       payment.setDate(fieldSet.readDate("date"));
 
-       return payment;
+       return null;
     }
 }
