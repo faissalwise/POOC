@@ -7,7 +7,7 @@
 logging:
     level:
         ROOT: DEBUG
-        com.sqli.proactive: DEBUG
+        org.proactive: DEBUG
 spring:
     profiles:
         active: dev
@@ -24,6 +24,7 @@ spring:
         url: jdbc:h2:mem:proactiveapp;DB_CLOSE_DELAY=-1
         username: proactiveapp
         password:
+        schema: classpath:schema.sql
     h2:
         console:
             enabled: true
@@ -111,7 +112,7 @@ proactive:
             enabled: false
             host: localhost
             port: 2003
-            prefix: jhipsterApp
+            prefix: proActiveApp
         prometheus: # Use the "prometheus" Maven profile to have the Prometheus dependencies
             enabled: false
             endpoint: /prometheusMetrics

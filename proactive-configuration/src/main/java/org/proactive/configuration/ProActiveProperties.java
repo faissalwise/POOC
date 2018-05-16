@@ -1,25 +1,32 @@
 package org.proactive.configuration;
 
-import javax.sql.DataSource;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.cors.CorsConfiguration;
 
 /**
  * Properties specific to ProActive.
  *
- * <p>
- * Properties are configured in the application.yml file.
- * </p>
  */
 @Validated
 @Configuration
 @ConfigurationProperties(prefix = "proactive", ignoreUnknownFields = true)
 public class ProActiveProperties {
+	
+	private final Logger log = LoggerFactory.getLogger(ProActiveProperties.class);
+	
+	private static final String SQL_FIND_CONFIG_PARAM = "SELECT * from CONFIG_PARAM";
 
 	private final Async async = new Async();
 
@@ -777,6 +784,22 @@ public class ProActiveProperties {
 	}
 
 	@Autowired
-	private DataSource dataSource;
+	private JdbcTemplate jdbcTemplate;
 
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+	
+	@PostConstruct
+	public void initConfigPropertiesFromDatabase(){
+	    log.debug("Get properties from DB using JDBC");
+//	    List<Map<String, Object>> rows = getJdbcTemplate().queryForList(SQL_FIND_CONFIG_PARAM);
+//	    Map it manually
+	    
+	}
+	
 }

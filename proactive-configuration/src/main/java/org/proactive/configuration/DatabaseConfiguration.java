@@ -4,12 +4,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
 public class DatabaseConfiguration {
@@ -17,6 +21,9 @@ public class DatabaseConfiguration {
 	private final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
 
     private final Environment env;
+    
+    @Autowired
+	private DataSource dataSource;
 
     public DatabaseConfiguration(Environment env) {
         this.env = env;
@@ -29,7 +36,7 @@ public class DatabaseConfiguration {
      * @throws SQLException if the server failed to start
      */
     @Bean(initMethod = "start", destroyMethod = "stop")
-    @Profile(ProActiveConstants.SPRING_PROFILE_DEVELOPMENT)
+    @Profile(ProActiveConstants.PROFILE_DEVELOPMENT)
     public Object h2TCPServer() throws SQLException {
         try {
             // We don't want to include H2 when we are packaging for the "prod" profile and won't
@@ -56,5 +63,22 @@ public class DatabaseConfiguration {
             throw new RuntimeException("Unchecked exception in org.h2.tools.Server.createTcpServer()", t);
         }
     }
+    
+    @Bean
+    public JdbcTemplate jdbcTemplate() {
+       return new JdbcTemplate(getDataSource());
+    }
 
+	public DataSource getDataSource() {
+		return dataSource;
+	}
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
+	public Environment getEnv() {
+		return env;
+	}
+    
 }

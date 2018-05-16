@@ -19,8 +19,6 @@ public class MailService {
 
 	private final Logger log = LoggerFactory.getLogger(MailService.class);
 
-	private static final String USER = "user";
-
 	private static final String BASE_URL = "baseUrl";
 
 	private final ProActiveProperties proActiveProperties;
