@@ -2,6 +2,7 @@ org/proactive/configuration/ProActiveProperties$Cache.class
 org/proactive/configuration/ProActiveProperties$Logging$Logstash.class
 org/proactive/configuration/ProActiveProperties$Http.class
 org/proactive/configuration/ProActiveDefault$Metrics$Logs.class
+org/proactive/configuration/LoggingAspect.class
 org/proactive/configuration/ProActiveDefault$Metrics$Prometheus.class
 org/proactive/configuration/ProActiveDefault$Security$RememberMe.class
 org/proactive/configuration/ProActiveProperties$Cache$Hazelcast.class
@@ -28,6 +29,7 @@ org/proactive/configuration/ProActiveDefault$Mail.class
 org/proactive/configuration/ProActiveApp.class
 org/proactive/configuration/ThymeleafConfiguration.class
 org/proactive/configuration/ProActiveDefault$Http.class
+org/proactive/configuration/NoDefaultJCacheRegionFactory.class
 org/proactive/configuration/ProActiveProperties$Security$Authentication$Jwt.class
 org/proactive/datasource/FixedH2Dialect.class
 org/proactive/configuration/ProActiveDefault$Cache$Hazelcast$ManagementCenter.class
@@ -37,6 +39,7 @@ org/proactive/configuration/ProActiveProperties$Swagger.class
 org/proactive/configuration/ProActiveProperties$Async.class
 org/proactive/configuration/ProActiveProperties$Logging$SpectatorMetrics.class
 org/proactive/configuration/ProActiveDefault$Logging.class
+org/proactive/configuration/LoggingAspectConfiguration.class
 org/proactive/configuration/ProActiveDefault$Security$Authentication.class
 org/proactive/configuration/ProActiveProperties$Mail.class
 org/proactive/configuration/ProActiveProperties$Ftp.class
