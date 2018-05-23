@@ -19,8 +19,6 @@ import org.springframework.web.cors.CorsConfiguration;
  * Properties specific to ProActive.
  *
  */
-@Validated
-@Configuration
 @ConfigurationProperties(prefix = "proactive", ignoreUnknownFields = true)
 public class ProActiveProperties {
 	
@@ -797,7 +795,7 @@ public class ProActiveProperties {
 	@PostConstruct
 	public void initConfigPropertiesFromDatabase(){
 	    log.debug("Get properties from DB using JDBC");
-	    List<Map<String, Object>> rows = getJdbcTemplate().queryForList(SQL_FIND_CONFIG_PARAM);
+//	    List<Map<String, Object>> rows = getJdbcTemplate().queryForList(SQL_FIND_CONFIG_PARAM);
 //	    Map it manually
 	    
 	}
