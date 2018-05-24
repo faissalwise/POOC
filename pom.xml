@@ -6,7 +6,7 @@
 		<groupId>io.spring.platform</groupId>
 		<artifactId>platform-bom</artifactId>
 		<version>Cairo-RELEASE</version>
-		<relativePath/>
+		<relativePath/><!-- lookup parent from repository -->
 	</parent>
 
 	<groupId>com.sqli.proactive</groupId>
@@ -19,7 +19,7 @@
 		<module>proactive-integration</module>
 		<module>proactive-configuration</module>
 		<module>proactive-web</module>
-    <module>proactive-flight</module>
+        <module>proactive-flight</module>
   </modules>
 
 

@@ -1,8 +1,5 @@
 package org.proactive.configuration;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 
@@ -10,9 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.cors.CorsConfiguration;
 
 /**
