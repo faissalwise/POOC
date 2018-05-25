@@ -44,6 +44,7 @@
         <mapstruct.version>1.2.0.Final</mapstruct.version>
         <node.version>v9.11.1</node.version>
         <npm.version>5.8.0</npm.version>
+        <javassist.version>3.20.0-GA</javassist.version>
 
         <!-- Plugin versions -->
         <maven-clean-plugin.version>2.6.1</maven-clean-plugin.version>
@@ -453,13 +454,15 @@
                             <requireMavenVersion>
                                 <message>You are running an older
                                     version of Maven. JHipster
-                                    requires at least Maven ${maven.version}</message>
+                                    requires
+                                    at least Maven ${maven.version}</message>
                                 <version>[${maven.version},)</version>
                             </requireMavenVersion>
                             <requireJavaVersion>
                                 <message>You are running an incompatible
                                     version of Java.
-                                    JHipster requires JDK ${java.version}</message>
+                                    JHipster requires
+                                    JDK ${java.version}</message>
                                 <version>[1.8,1.9)</version>
                             </requireJavaVersion>
                         </rules>
@@ -897,6 +900,11 @@
                 </dependency>
             </dependencies>
         </profile>
-        <!-- jhipster-needle-maven-add-profile -->
     </profiles>
+<!--     <repositories> -->
+<!--         <repository> -->
+<!--             <id>Maven repository</id> -->
+<!--             <url>http://repo1.maven.org/maven2/</url> -->
+<!--         </repository> -->
+<!--     </repositories> -->
 </project>

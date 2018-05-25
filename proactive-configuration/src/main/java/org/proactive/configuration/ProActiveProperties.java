@@ -10,789 +10,792 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 
+
 /**
  * Properties specific to ProActive.
  *
  */
 @ConfigurationProperties(prefix = "proactive", ignoreUnknownFields = true)
 public class ProActiveProperties {
-	
-	private final Logger log = LoggerFactory.getLogger(ProActiveProperties.class);
-	
-	private static final String SQL_FIND_CONFIG_PARAM = "SELECT * from CONFIG_PARAM";
 
-	private final Async async = new Async();
+    private final Logger log = LoggerFactory.getLogger(ProActiveProperties.class);
 
-	private final Http http = new Http();
+    private static final String SQL_FIND_CONFIG_PARAM = "SELECT * from CONFIG_PARAM";
 
-	private final Cache cache = new Cache();
+    private final Async async = new Async();
 
-	private final Mail mail = new Mail();
+    private final Http http = new Http();
 
-	private final Security security = new Security();
+    private final Cache cache = new Cache();
 
-	private final Swagger swagger = new Swagger();
+    private final Mail mail = new Mail();
 
-	private final Metrics metrics = new Metrics();
+    private final Security security = new Security();
 
-	private final Logging logging = new Logging();
+    private final Swagger swagger = new Swagger();
 
-	private final Ftp ftp = new Ftp();
+    private final Metrics metrics = new Metrics();
 
-	private final CorsConfiguration cors = new CorsConfiguration();
+    private final Logging logging = new Logging();
 
-	public Async getAsync() {
-		return async;
-	}
+    private final Ftp ftp = new Ftp();
 
-	public Http getHttp() {
-		return http;
-	}
+    private final CorsConfiguration cors = new CorsConfiguration();
 
-	public Cache getCache() {
-		return cache;
-	}
+    public Async getAsync() {
+        return async;
+    }
 
-	public Mail getMail() {
-		return mail;
-	}
+    public Http getHttp() {
+        return http;
+    }
 
-	public Security getSecurity() {
-		return security;
-	}
+    public Cache getCache() {
+        return cache;
+    }
 
-	public Swagger getSwagger() {
-		return swagger;
-	}
+    public Mail getMail() {
+        return mail;
+    }
 
-	public Metrics getMetrics() {
-		return metrics;
-	}
+    public Security getSecurity() {
+        return security;
+    }
 
-	public Logging getLogging() {
-		return logging;
-	}
+    public Swagger getSwagger() {
+        return swagger;
+    }
 
-	public CorsConfiguration getCors() {
-		return cors;
-	}
+    public Metrics getMetrics() {
+        return metrics;
+    }
 
-	public Ftp getFtp() {
-		return ftp;
-	}
+    public Logging getLogging() {
+        return logging;
+    }
 
-	public static class Async {
+    public CorsConfiguration getCors() {
+        return cors;
+    }
 
-		private int corePoolSize = ProActiveDefault.Async.corePoolSize;
+    public Ftp getFtp() {
+        return ftp;
+    }
 
-		private int maxPoolSize = ProActiveDefault.Async.maxPoolSize;
+    public static class Async {
 
-		private int queueCapacity = ProActiveDefault.Async.queueCapacity;
+        private int corePoolSize = ProActiveDefault.Async.corePoolSize;
 
-		public int getCorePoolSize() {
-			return corePoolSize;
-		}
+        private int maxPoolSize = ProActiveDefault.Async.maxPoolSize;
 
-		public void setCorePoolSize(int corePoolSize) {
-			this.corePoolSize = corePoolSize;
-		}
+        private int queueCapacity = ProActiveDefault.Async.queueCapacity;
 
-		public int getMaxPoolSize() {
-			return maxPoolSize;
-		}
+        public int getCorePoolSize() {
+            return corePoolSize;
+        }
 
-		public void setMaxPoolSize(int maxPoolSize) {
-			this.maxPoolSize = maxPoolSize;
-		}
+        public void setCorePoolSize(int corePoolSize) {
+            this.corePoolSize = corePoolSize;
+        }
 
-		public int getQueueCapacity() {
-			return queueCapacity;
-		}
+        public int getMaxPoolSize() {
+            return maxPoolSize;
+        }
 
-		public void setQueueCapacity(int queueCapacity) {
-			this.queueCapacity = queueCapacity;
-		}
-	}
+        public void setMaxPoolSize(int maxPoolSize) {
+            this.maxPoolSize = maxPoolSize;
+        }
 
-	public static class Http {
+        public int getQueueCapacity() {
+            return queueCapacity;
+        }
 
-		public enum Version {
-			V_1_1, V_2_0
-		}
+        public void setQueueCapacity(int queueCapacity) {
+            this.queueCapacity = queueCapacity;
+        }
+    }
 
-		private final Cache cache = new Cache();
+    public static class Http {
 
-		/**
-		 * HTTP version, must be "V_1_1" (for HTTP/1.1) or V_2_0 (for (HTTP/2)
-		 */
-		public Version version = ProActiveDefault.Http.version;
+        public enum Version {
+            V_1_1, V_2_0
+        }
 
-		public Cache getCache() {
-			return cache;
-		}
+        private final Cache cache = new Cache();
 
-		public Version getVersion() {
-			return version;
-		}
+        /**
+         * HTTP version, must be "V_1_1" (for HTTP/1.1) or V_2_0 (for (HTTP/2)
+         */
+        public Version version = ProActiveDefault.Http.version;
 
-		public void setVersion(Version version) {
-			this.version = version;
-		}
+        public Cache getCache() {
+            return cache;
+        }
 
-		public static class Cache {
+        public Version getVersion() {
+            return version;
+        }
 
-			private int timeToLiveInDays = ProActiveDefault.Http.Cache.timeToLiveInDays;
+        public void setVersion(Version version) {
+            this.version = version;
+        }
 
-			public int getTimeToLiveInDays() {
-				return timeToLiveInDays;
-			}
+        public static class Cache {
 
-			public void setTimeToLiveInDays(int timeToLiveInDays) {
-				this.timeToLiveInDays = timeToLiveInDays;
-			}
-		}
-	}
+            private int timeToLiveInDays = ProActiveDefault.Http.Cache.timeToLiveInDays;
 
-	public static class Cache {
+            public int getTimeToLiveInDays() {
+                return timeToLiveInDays;
+            }
 
-		private final Hazelcast hazelcast = new Hazelcast();
+            public void setTimeToLiveInDays(int timeToLiveInDays) {
+                this.timeToLiveInDays = timeToLiveInDays;
+            }
+        }
+    }
 
-		private final Ehcache ehcache = new Ehcache();
+    public static class Cache {
 
-		public Hazelcast getHazelcast() {
-			return hazelcast;
-		}
+        private final Hazelcast hazelcast = new Hazelcast();
 
-		public Ehcache getEhcache() {
-			return ehcache;
-		}
+        private final Ehcache ehcache = new Ehcache();
 
-		public static class Hazelcast {
+        public Hazelcast getHazelcast() {
+            return hazelcast;
+        }
 
-			private int timeToLiveSeconds = ProActiveDefault.Cache.Hazelcast.timeToLiveSeconds;
+        public Ehcache getEhcache() {
+            return ehcache;
+        }
 
-			private int backupCount = ProActiveDefault.Cache.Hazelcast.backupCount;
+        public static class Hazelcast {
 
-			private final ManagementCenter managementCenter = new ManagementCenter();
+            private int timeToLiveSeconds = ProActiveDefault.Cache.Hazelcast.timeToLiveSeconds;
 
-			public ManagementCenter getManagementCenter() {
-				return managementCenter;
-			}
+            private int backupCount = ProActiveDefault.Cache.Hazelcast.backupCount;
 
-			public static class ManagementCenter {
+            private final ManagementCenter managementCenter = new ManagementCenter();
 
-				private boolean enabled = ProActiveDefault.Cache.Hazelcast.ManagementCenter.enabled;
+            public ManagementCenter getManagementCenter() {
+                return managementCenter;
+            }
 
-				private int updateInterval = ProActiveDefault.Cache.Hazelcast.ManagementCenter.updateInterval;
+            public static class ManagementCenter {
 
-				private String url = ProActiveDefault.Cache.Hazelcast.ManagementCenter.url;
+                private boolean enabled = ProActiveDefault.Cache.Hazelcast.ManagementCenter.enabled;
 
-				public boolean isEnabled() {
-					return enabled;
-				}
+                private int updateInterval = ProActiveDefault.Cache.Hazelcast.ManagementCenter.updateInterval;
 
-				public void setEnabled(boolean enabled) {
-					this.enabled = enabled;
-				}
+                private String url = ProActiveDefault.Cache.Hazelcast.ManagementCenter.url;
 
-				public int getUpdateInterval() {
-					return updateInterval;
-				}
+                public boolean isEnabled() {
+                    return enabled;
+                }
 
-				public void setUpdateInterval(int updateInterval) {
-					this.updateInterval = updateInterval;
-				}
+                public void setEnabled(boolean enabled) {
+                    this.enabled = enabled;
+                }
 
-				public String getUrl() {
-					return url;
-				}
+                public int getUpdateInterval() {
+                    return updateInterval;
+                }
 
-				public void setUrl(String url) {
-					this.url = url;
-				}
+                public void setUpdateInterval(int updateInterval) {
+                    this.updateInterval = updateInterval;
+                }
 
-			}
+                public String getUrl() {
+                    return url;
+                }
 
-			public int getTimeToLiveSeconds() {
-				return timeToLiveSeconds;
-			}
+                public void setUrl(String url) {
+                    this.url = url;
+                }
 
-			public void setTimeToLiveSeconds(int timeToLiveSeconds) {
-				this.timeToLiveSeconds = timeToLiveSeconds;
-			}
+            }
 
-			public int getBackupCount() {
-				return backupCount;
-			}
+            public int getTimeToLiveSeconds() {
+                return timeToLiveSeconds;
+            }
 
-			public void setBackupCount(int backupCount) {
-				this.backupCount = backupCount;
-			}
-		}
+            public void setTimeToLiveSeconds(int timeToLiveSeconds) {
+                this.timeToLiveSeconds = timeToLiveSeconds;
+            }
 
-		public static class Ehcache {
+            public int getBackupCount() {
+                return backupCount;
+            }
 
-			private int timeToLiveSeconds = ProActiveDefault.Cache.Ehcache.timeToLiveSeconds;
+            public void setBackupCount(int backupCount) {
+                this.backupCount = backupCount;
+            }
+        }
 
-			private long maxEntries = ProActiveDefault.Cache.Ehcache.maxEntries;
+        public static class Ehcache {
 
-			public int getTimeToLiveSeconds() {
-				return timeToLiveSeconds;
-			}
+            private int timeToLiveSeconds = ProActiveDefault.Cache.Ehcache.timeToLiveSeconds;
 
-			public void setTimeToLiveSeconds(int timeToLiveSeconds) {
-				this.timeToLiveSeconds = timeToLiveSeconds;
-			}
+            private long maxEntries = ProActiveDefault.Cache.Ehcache.maxEntries;
 
-			public long getMaxEntries() {
-				return maxEntries;
-			}
+            public int getTimeToLiveSeconds() {
+                return timeToLiveSeconds;
+            }
 
-			public void setMaxEntries(long maxEntries) {
-				this.maxEntries = maxEntries;
-			}
-		}
+            public void setTimeToLiveSeconds(int timeToLiveSeconds) {
+                this.timeToLiveSeconds = timeToLiveSeconds;
+            }
 
-	}
+            public long getMaxEntries() {
+                return maxEntries;
+            }
 
-	public static class Mail {
+            public void setMaxEntries(long maxEntries) {
+                this.maxEntries = maxEntries;
+            }
+        }
 
-		private String from = ProActiveDefault.Mail.from;
+    }
 
-		private String baseUrl = ProActiveDefault.Mail.baseUrl;
+    public static class Mail {
 
-		private String to = ProActiveDefault.Mail.to;
+        private String from = ProActiveDefault.Mail.from;
 
-		public String getFrom() {
-			return from;
-		}
+        private String baseUrl = ProActiveDefault.Mail.baseUrl;
 
-		public void setFrom(String from) {
-			this.from = from;
-		}
+        private String to = ProActiveDefault.Mail.to;
 
-		public String getBaseUrl() {
-			return baseUrl;
-		}
+        public String getFrom() {
+            return from;
+        }
 
-		public void setBaseUrl(String baseUrl) {
-			this.baseUrl = baseUrl;
-		}
+        public void setFrom(String from) {
+            this.from = from;
+        }
 
-		public String getTo() {
-			return to;
-		}
+        public String getBaseUrl() {
+            return baseUrl;
+        }
 
-		public void setTo(String to) {
-			this.to = to;
-		}
+        public void setBaseUrl(String baseUrl) {
+            this.baseUrl = baseUrl;
+        }
 
-	}
+        public String getTo() {
+            return to;
+        }
 
-	public static class Ftp {
+        public void setTo(String to) {
+            this.to = to;
+        }
 
-		private String host = ProActiveDefault.Ftp.host;
+    }
 
-		private int port = ProActiveDefault.Ftp.port;
+   
+    public static class Ftp {
 
-		private String username = ProActiveDefault.Ftp.username;
+        private String host = ProActiveDefault.Ftp.host;
 
-		private String password = ProActiveDefault.Ftp.password;
+        private int port = ProActiveDefault.Ftp.port;
 
-		public String getHost() {
-			return host;
-		}
+        private String username = ProActiveDefault.Ftp.username;
 
-		public void setHost(String host) {
-			this.host = host;
-		}
+        private String password = ProActiveDefault.Ftp.password;
 
-		public int getPort() {
-			return port;
-		}
+        public String getHost() {
+            return host;
+        }
 
-		public void setPort(int port) {
-			this.port = port;
-		}
+        public void setHost(String host) {
+            this.host = host;
+        }
 
-		public String getUsername() {
-			return username;
-		}
+        public int getPort() {
+            return port;
+        }
 
-		public void setUsername(String username) {
-			this.username = username;
-		}
+        public void setPort(int port) {
+            this.port = port;
+        }
 
-		public String getPassword() {
-			return password;
-		}
+        public String getUsername() {
+            return username;
+        }
 
-		public void setPassword(String password) {
-			this.password = password;
-		}
+        public void setUsername(String username) {
+            this.username = username;
+        }
 
-	}
+        public String getPassword() {
+            return password;
+        }
 
-	public static class Security {
+        public void setPassword(String password) {
+            this.password = password;
+        }
 
-		private final ClientAuthorization clientAuthorization = new ClientAuthorization();
+    }
 
-		private final Authentication authentication = new Authentication();
+    public static class Security {
 
-		private final RememberMe rememberMe = new RememberMe();
+        private final ClientAuthorization clientAuthorization = new ClientAuthorization();
 
-		public ClientAuthorization getClientAuthorization() {
-			return clientAuthorization;
-		}
+        private final Authentication authentication = new Authentication();
 
-		public Authentication getAuthentication() {
-			return authentication;
-		}
+        private final RememberMe rememberMe = new RememberMe();
 
-		public RememberMe getRememberMe() {
-			return rememberMe;
-		}
+        public ClientAuthorization getClientAuthorization() {
+            return clientAuthorization;
+        }
 
-		public static class ClientAuthorization {
+        public Authentication getAuthentication() {
+            return authentication;
+        }
 
-			private String accessTokenUri = ProActiveDefault.Security.ClientAuthorization.accessTokenUri;
+        public RememberMe getRememberMe() {
+            return rememberMe;
+        }
 
-			private String tokenServiceId = ProActiveDefault.Security.ClientAuthorization.tokenServiceId;
+        public static class ClientAuthorization {
 
-			private String clientId = ProActiveDefault.Security.ClientAuthorization.clientId;
+            private String accessTokenUri = ProActiveDefault.Security.ClientAuthorization.accessTokenUri;
 
-			private String clientSecret = ProActiveDefault.Security.ClientAuthorization.clientSecret;
+            private String tokenServiceId = ProActiveDefault.Security.ClientAuthorization.tokenServiceId;
 
-			public String getAccessTokenUri() {
-				return accessTokenUri;
-			}
+            private String clientId = ProActiveDefault.Security.ClientAuthorization.clientId;
 
-			public void setAccessTokenUri(String accessTokenUri) {
-				this.accessTokenUri = accessTokenUri;
-			}
+            private String clientSecret = ProActiveDefault.Security.ClientAuthorization.clientSecret;
 
-			public String getTokenServiceId() {
-				return tokenServiceId;
-			}
+            public String getAccessTokenUri() {
+                return accessTokenUri;
+            }
 
-			public void setTokenServiceId(String tokenServiceId) {
-				this.tokenServiceId = tokenServiceId;
-			}
+            public void setAccessTokenUri(String accessTokenUri) {
+                this.accessTokenUri = accessTokenUri;
+            }
 
-			public String getClientId() {
-				return clientId;
-			}
+            public String getTokenServiceId() {
+                return tokenServiceId;
+            }
 
-			public void setClientId(String clientId) {
-				this.clientId = clientId;
-			}
+            public void setTokenServiceId(String tokenServiceId) {
+                this.tokenServiceId = tokenServiceId;
+            }
 
-			public String getClientSecret() {
-				return clientSecret;
-			}
+            public String getClientId() {
+                return clientId;
+            }
 
-			public void setClientSecret(String clientSecret) {
-				this.clientSecret = clientSecret;
-			}
-		}
+            public void setClientId(String clientId) {
+                this.clientId = clientId;
+            }
 
-		public static class Authentication {
+            public String getClientSecret() {
+                return clientSecret;
+            }
 
-			private final Jwt jwt = new Jwt();
+            public void setClientSecret(String clientSecret) {
+                this.clientSecret = clientSecret;
+            }
+        }
 
-			public Jwt getJwt() {
-				return jwt;
-			}
+        public static class Authentication {
 
-			public static class Jwt {
+            private final Jwt jwt = new Jwt();
 
-				private String secret = ProActiveDefault.Security.Authentication.Jwt.secret;
+            public Jwt getJwt() {
+                return jwt;
+            }
 
-				private long tokenValidityInSeconds = ProActiveDefault.Security.Authentication.Jwt.tokenValidityInSeconds;
+            public static class Jwt {
 
-				private long tokenValidityInSecondsForRememberMe = ProActiveDefault.Security.Authentication.Jwt.tokenValidityInSecondsForRememberMe;
+                private String secret = ProActiveDefault.Security.Authentication.Jwt.secret;
 
-				public String getSecret() {
-					return secret;
-				}
+                private long tokenValidityInSeconds = ProActiveDefault.Security.Authentication.Jwt.tokenValidityInSeconds;
 
-				public void setSecret(String secret) {
-					this.secret = secret;
-				}
+                private long tokenValidityInSecondsForRememberMe = ProActiveDefault.Security.Authentication.Jwt.tokenValidityInSecondsForRememberMe;
 
-				public long getTokenValidityInSeconds() {
-					return tokenValidityInSeconds;
-				}
+                public String getSecret() {
+                    return secret;
+                }
 
-				public void setTokenValidityInSeconds(long tokenValidityInSeconds) {
-					this.tokenValidityInSeconds = tokenValidityInSeconds;
-				}
+                public void setSecret(String secret) {
+                    this.secret = secret;
+                }
 
-				public long getTokenValidityInSecondsForRememberMe() {
-					return tokenValidityInSecondsForRememberMe;
-				}
+                public long getTokenValidityInSeconds() {
+                    return tokenValidityInSeconds;
+                }
 
-				public void setTokenValidityInSecondsForRememberMe(long tokenValidityInSecondsForRememberMe) {
-					this.tokenValidityInSecondsForRememberMe = tokenValidityInSecondsForRememberMe;
-				}
-			}
-		}
+                public void setTokenValidityInSeconds(long tokenValidityInSeconds) {
+                    this.tokenValidityInSeconds = tokenValidityInSeconds;
+                }
 
-		public static class RememberMe {
+                public long getTokenValidityInSecondsForRememberMe() {
+                    return tokenValidityInSecondsForRememberMe;
+                }
 
-			@NotNull
-			private String key = ProActiveDefault.Security.RememberMe.key;
+                public void setTokenValidityInSecondsForRememberMe(long tokenValidityInSecondsForRememberMe) {
+                    this.tokenValidityInSecondsForRememberMe = tokenValidityInSecondsForRememberMe;
+                }
+            }
+        }
 
-			public String getKey() {
-				return key;
-			}
+        public static class RememberMe {
 
-			public void setKey(String key) {
-				this.key = key;
-			}
-		}
-	}
+            @NotNull
+            private String key = ProActiveDefault.Security.RememberMe.key;
 
-	public static class Swagger {
+            public String getKey() {
+                return key;
+            }
 
-		private String title = ProActiveDefault.Swagger.title;
+            public void setKey(String key) {
+                this.key = key;
+            }
+        }
+    }
 
-		private String description = ProActiveDefault.Swagger.description;
+    public static class Swagger {
 
-		private String version = ProActiveDefault.Swagger.version;
+        private String title = ProActiveDefault.Swagger.title;
 
-		private String termsOfServiceUrl = ProActiveDefault.Swagger.termsOfServiceUrl;
+        private String description = ProActiveDefault.Swagger.description;
 
-		private String contactName = ProActiveDefault.Swagger.contactName;
+        private String version = ProActiveDefault.Swagger.version;
 
-		private String contactUrl = ProActiveDefault.Swagger.contactUrl;
+        private String termsOfServiceUrl = ProActiveDefault.Swagger.termsOfServiceUrl;
 
-		private String contactEmail = ProActiveDefault.Swagger.contactEmail;
+        private String contactName = ProActiveDefault.Swagger.contactName;
 
-		private String license = ProActiveDefault.Swagger.license;
+        private String contactUrl = ProActiveDefault.Swagger.contactUrl;
 
-		private String licenseUrl = ProActiveDefault.Swagger.licenseUrl;
+        private String contactEmail = ProActiveDefault.Swagger.contactEmail;
 
-		private String defaultIncludePattern = ProActiveDefault.Swagger.defaultIncludePattern;
+        private String license = ProActiveDefault.Swagger.license;
 
-		private String host = ProActiveDefault.Swagger.host;
+        private String licenseUrl = ProActiveDefault.Swagger.licenseUrl;
 
-		private String[] protocols = ProActiveDefault.Swagger.protocols;
+        private String defaultIncludePattern = ProActiveDefault.Swagger.defaultIncludePattern;
 
-		public String getTitle() {
-			return title;
-		}
+        private String host = ProActiveDefault.Swagger.host;
 
-		public void setTitle(String title) {
-			this.title = title;
-		}
+        private String[] protocols = ProActiveDefault.Swagger.protocols;
 
-		public String getDescription() {
-			return description;
-		}
+        public String getTitle() {
+            return title;
+        }
 
-		public void setDescription(String description) {
-			this.description = description;
-		}
+        public void setTitle(String title) {
+            this.title = title;
+        }
 
-		public String getVersion() {
-			return version;
-		}
+        public String getDescription() {
+            return description;
+        }
 
-		public void setVersion(String version) {
-			this.version = version;
-		}
+        public void setDescription(String description) {
+            this.description = description;
+        }
 
-		public String getTermsOfServiceUrl() {
-			return termsOfServiceUrl;
-		}
+        public String getVersion() {
+            return version;
+        }
 
-		public void setTermsOfServiceUrl(String termsOfServiceUrl) {
-			this.termsOfServiceUrl = termsOfServiceUrl;
-		}
+        public void setVersion(String version) {
+            this.version = version;
+        }
 
-		public String getContactName() {
-			return contactName;
-		}
+        public String getTermsOfServiceUrl() {
+            return termsOfServiceUrl;
+        }
 
-		public void setContactName(String contactName) {
-			this.contactName = contactName;
-		}
+        public void setTermsOfServiceUrl(String termsOfServiceUrl) {
+            this.termsOfServiceUrl = termsOfServiceUrl;
+        }
 
-		public String getContactUrl() {
-			return contactUrl;
-		}
+        public String getContactName() {
+            return contactName;
+        }
 
-		public void setContactUrl(String contactUrl) {
-			this.contactUrl = contactUrl;
-		}
+        public void setContactName(String contactName) {
+            this.contactName = contactName;
+        }
 
-		public String getContactEmail() {
-			return contactEmail;
-		}
+        public String getContactUrl() {
+            return contactUrl;
+        }
 
-		public void setContactEmail(String contactEmail) {
-			this.contactEmail = contactEmail;
-		}
+        public void setContactUrl(String contactUrl) {
+            this.contactUrl = contactUrl;
+        }
 
-		public String getLicense() {
-			return license;
-		}
+        public String getContactEmail() {
+            return contactEmail;
+        }
 
-		public void setLicense(String license) {
-			this.license = license;
-		}
+        public void setContactEmail(String contactEmail) {
+            this.contactEmail = contactEmail;
+        }
 
-		public String getLicenseUrl() {
-			return licenseUrl;
-		}
+        public String getLicense() {
+            return license;
+        }
 
-		public void setLicenseUrl(String licenseUrl) {
-			this.licenseUrl = licenseUrl;
-		}
+        public void setLicense(String license) {
+            this.license = license;
+        }
 
-		public String getDefaultIncludePattern() {
-			return defaultIncludePattern;
-		}
+        public String getLicenseUrl() {
+            return licenseUrl;
+        }
 
-		public void setDefaultIncludePattern(String defaultIncludePattern) {
-			this.defaultIncludePattern = defaultIncludePattern;
-		}
+        public void setLicenseUrl(String licenseUrl) {
+            this.licenseUrl = licenseUrl;
+        }
 
-		public String getHost() {
-			return host;
-		}
+        public String getDefaultIncludePattern() {
+            return defaultIncludePattern;
+        }
 
-		public void setHost(final String host) {
-			this.host = host;
-		}
+        public void setDefaultIncludePattern(String defaultIncludePattern) {
+            this.defaultIncludePattern = defaultIncludePattern;
+        }
 
-		public String[] getProtocols() {
-			return protocols;
-		}
+        public String getHost() {
+            return host;
+        }
 
-		public void setProtocols(final String[] protocols) {
-			this.protocols = protocols;
-		}
-	}
+        public void setHost(final String host) {
+            this.host = host;
+        }
 
-	public static class Metrics {
+        public String[] getProtocols() {
+            return protocols;
+        }
 
-		private final Jmx jmx = new Jmx();
+        public void setProtocols(final String[] protocols) {
+            this.protocols = protocols;
+        }
+    }
 
-		private final Graphite graphite = new Graphite();
+    public static class Metrics {
 
-		private final Prometheus prometheus = new Prometheus();
+        private final Jmx jmx = new Jmx();
 
-		private final Logs logs = new Logs();
+        private final Graphite graphite = new Graphite();
 
-		public Jmx getJmx() {
-			return jmx;
-		}
+        private final Prometheus prometheus = new Prometheus();
 
-		public Graphite getGraphite() {
-			return graphite;
-		}
+        private final Logs logs = new Logs();
 
-		public Prometheus getPrometheus() {
-			return prometheus;
-		}
+        public Jmx getJmx() {
+            return jmx;
+        }
 
-		public Logs getLogs() {
-			return logs;
-		}
+        public Graphite getGraphite() {
+            return graphite;
+        }
 
-		public static class Jmx {
+        public Prometheus getPrometheus() {
+            return prometheus;
+        }
 
-			private boolean enabled = ProActiveDefault.Metrics.Jmx.enabled;
+        public Logs getLogs() {
+            return logs;
+        }
 
-			public boolean isEnabled() {
-				return enabled;
-			}
+        public static class Jmx {
 
-			public void setEnabled(boolean enabled) {
-				this.enabled = enabled;
-			}
-		}
+            private boolean enabled = ProActiveDefault.Metrics.Jmx.enabled;
 
-		public static class Graphite {
+            public boolean isEnabled() {
+                return enabled;
+            }
 
-			private boolean enabled = ProActiveDefault.Metrics.Graphite.enabled;
+            public void setEnabled(boolean enabled) {
+                this.enabled = enabled;
+            }
+        }
 
-			private String host = ProActiveDefault.Metrics.Graphite.host;
+        public static class Graphite {
 
-			private int port = ProActiveDefault.Metrics.Graphite.port;
+            private boolean enabled = ProActiveDefault.Metrics.Graphite.enabled;
 
-			private String prefix = ProActiveDefault.Metrics.Graphite.prefix;
+            private String host = ProActiveDefault.Metrics.Graphite.host;
 
-			public boolean isEnabled() {
-				return enabled;
-			}
+            private int port = ProActiveDefault.Metrics.Graphite.port;
 
-			public void setEnabled(boolean enabled) {
-				this.enabled = enabled;
-			}
+            private String prefix = ProActiveDefault.Metrics.Graphite.prefix;
 
-			public String getHost() {
-				return host;
-			}
+            public boolean isEnabled() {
+                return enabled;
+            }
 
-			public void setHost(String host) {
-				this.host = host;
-			}
+            public void setEnabled(boolean enabled) {
+                this.enabled = enabled;
+            }
 
-			public int getPort() {
-				return port;
-			}
+            public String getHost() {
+                return host;
+            }
 
-			public void setPort(int port) {
-				this.port = port;
-			}
+            public void setHost(String host) {
+                this.host = host;
+            }
 
-			public String getPrefix() {
-				return prefix;
-			}
+            public int getPort() {
+                return port;
+            }
 
-			public void setPrefix(String prefix) {
-				this.prefix = prefix;
-			}
-		}
+            public void setPort(int port) {
+                this.port = port;
+            }
 
-		public static class Prometheus {
+            public String getPrefix() {
+                return prefix;
+            }
 
-			private boolean enabled = ProActiveDefault.Metrics.Prometheus.enabled;
+            public void setPrefix(String prefix) {
+                this.prefix = prefix;
+            }
+        }
 
-			private String endpoint = ProActiveDefault.Metrics.Prometheus.endpoint;
+        public static class Prometheus {
 
-			public boolean isEnabled() {
-				return enabled;
-			}
+            private boolean enabled = ProActiveDefault.Metrics.Prometheus.enabled;
 
-			public void setEnabled(boolean enabled) {
-				this.enabled = enabled;
-			}
+            private String endpoint = ProActiveDefault.Metrics.Prometheus.endpoint;
 
-			public String getEndpoint() {
-				return endpoint;
-			}
+            public boolean isEnabled() {
+                return enabled;
+            }
 
-			public void setEndpoint(String endpoint) {
-				this.endpoint = endpoint;
-			}
-		}
+            public void setEnabled(boolean enabled) {
+                this.enabled = enabled;
+            }
 
-		public static class Logs {
+            public String getEndpoint() {
+                return endpoint;
+            }
 
-			private boolean enabled = ProActiveDefault.Metrics.Logs.enabled;
+            public void setEndpoint(String endpoint) {
+                this.endpoint = endpoint;
+            }
+        }
 
-			private long reportFrequency = ProActiveDefault.Metrics.Logs.reportFrequency;
+        public static class Logs {
 
-			public boolean isEnabled() {
-				return enabled;
-			}
+            private boolean enabled = ProActiveDefault.Metrics.Logs.enabled;
 
-			public void setEnabled(boolean enabled) {
-				this.enabled = enabled;
-			}
+            private long reportFrequency = ProActiveDefault.Metrics.Logs.reportFrequency;
 
-			public long getReportFrequency() {
-				return reportFrequency;
-			}
+            public boolean isEnabled() {
+                return enabled;
+            }
 
-			public void setReportFrequency(long reportFrequency) {
-				this.reportFrequency = reportFrequency;
-			}
-		}
-	}
+            public void setEnabled(boolean enabled) {
+                this.enabled = enabled;
+            }
 
-	public static class Logging {
+            public long getReportFrequency() {
+                return reportFrequency;
+            }
 
-		private final Logstash logstash = new Logstash();
+            public void setReportFrequency(long reportFrequency) {
+                this.reportFrequency = reportFrequency;
+            }
+        }
+    }
 
-		public Logstash getLogstash() {
-			return logstash;
-		}
+    public static class Logging {
 
-		public static class Logstash {
+        private final Logstash logstash = new Logstash();
 
-			private boolean enabled = ProActiveDefault.Logging.Logstash.enabled;
+        public Logstash getLogstash() {
+            return logstash;
+        }
 
-			private String host = ProActiveDefault.Logging.Logstash.host;
+        public static class Logstash {
 
-			private int port = ProActiveDefault.Logging.Logstash.port;
+            private boolean enabled = ProActiveDefault.Logging.Logstash.enabled;
 
-			private int queueSize = ProActiveDefault.Logging.Logstash.queueSize;
+            private String host = ProActiveDefault.Logging.Logstash.host;
 
-			public boolean isEnabled() {
-				return enabled;
-			}
+            private int port = ProActiveDefault.Logging.Logstash.port;
 
-			public void setEnabled(boolean enabled) {
-				this.enabled = enabled;
-			}
+            private int queueSize = ProActiveDefault.Logging.Logstash.queueSize;
 
-			public String getHost() {
-				return host;
-			}
+            public boolean isEnabled() {
+                return enabled;
+            }
 
-			public void setHost(String host) {
-				this.host = host;
-			}
+            public void setEnabled(boolean enabled) {
+                this.enabled = enabled;
+            }
 
-			public int getPort() {
-				return port;
-			}
+            public String getHost() {
+                return host;
+            }
 
-			public void setPort(int port) {
-				this.port = port;
-			}
+            public void setHost(String host) {
+                this.host = host;
+            }
 
-			public int getQueueSize() {
-				return queueSize;
-			}
+            public int getPort() {
+                return port;
+            }
 
-			public void setQueueSize(int queueSize) {
-				this.queueSize = queueSize;
-			}
-		}
+            public void setPort(int port) {
+                this.port = port;
+            }
 
-		private final SpectatorMetrics spectatorMetrics = new SpectatorMetrics();
+            public int getQueueSize() {
+                return queueSize;
+            }
 
-		public SpectatorMetrics getSpectatorMetrics() {
-			return spectatorMetrics;
-		}
+            public void setQueueSize(int queueSize) {
+                this.queueSize = queueSize;
+            }
+        }
 
-		public static class SpectatorMetrics {
+        private final SpectatorMetrics spectatorMetrics = new SpectatorMetrics();
 
-			private boolean enabled = ProActiveDefault.Logging.SpectatorMetrics.enabled;
+        public SpectatorMetrics getSpectatorMetrics() {
+            return spectatorMetrics;
+        }
 
-			public boolean isEnabled() {
-				return enabled;
-			}
+        public static class SpectatorMetrics {
 
-			public void setEnabled(boolean enabled) {
-				this.enabled = enabled;
-			}
-		}
-	}
+            private boolean enabled = ProActiveDefault.Logging.SpectatorMetrics.enabled;
 
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
+            public boolean isEnabled() {
+                return enabled;
+            }
 
-	public JdbcTemplate getJdbcTemplate() {
-		return jdbcTemplate;
-	}
+            public void setEnabled(boolean enabled) {
+                this.enabled = enabled;
+            }
+        }
+    }
 
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
-	
-	@PostConstruct
-	public void initConfigPropertiesFromDatabase(){
-	    log.debug("Get properties from DB using JDBC");
-//	    List<Map<String, Object>> rows = getJdbcTemplate().queryForList(SQL_FIND_CONFIG_PARAM);
-//	    Map it manually
-	    
-	}
-	
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    public JdbcTemplate getJdbcTemplate() {
+        return jdbcTemplate;
+    }
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @PostConstruct
+    public void initConfigPropertiesFromDatabase() {
+        log.debug("Get properties from DB using JDBC");
+        // List<Map<String, Object>> rows =
+        // getJdbcTemplate().queryForList(SQL_FIND_CONFIG_PARAM);
+        // Map it manually
+
+    }
+
 }
