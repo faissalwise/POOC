@@ -22,6 +22,8 @@ npm-debug.log.*
 ######################
 # Eclipse
 ######################
+target/
+.patch
 *.pydevproject
 .project
 .metadata
