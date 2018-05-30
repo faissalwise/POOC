@@ -61,6 +61,32 @@
     </build>
     <profiles>
         <profile>
+            <id>Gatling</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.gatling</groupId>
+                        <artifactId>gatling-maven-plugin</artifactId>
+                        <version>${gatling-maven-plugin.version}</version>
+                        <configuration>
+                            <configFolder>src/test/gatling/conf</configFolder>
+                            <dataFolder>src/test/gatling/data</dataFolder>
+                            <resultsFolder>target/gatling/results</resultsFolder>
+                            <bodiesFolder>src/test/gatling/bodies</bodiesFolder>
+                            <simulationsFolder>src/test/gatling/simulations</simulationsFolder>
+                            <!-- This will run multiple simulations one by 
+                                one. Useful when doing Gatling tests in CI. -->
+                            <runMultipleSimulations>true</runMultipleSimulations>
+                            <!-- To run only one simulation, you need to 
+                                disable the "runMultipleSimulations" above, and write the name of your simulation 
+                                below. -->
+                            <!--<simulationClass>WriteTheNameOfYourGatlingSimulation</simulationClass> -->
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>buildDocker</id>
             <build>
                 <plugins>
