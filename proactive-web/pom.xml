@@ -10,8 +10,18 @@
   </parent>
   <artifactId>proactive-web</artifactId>
   <name>proactive-web</name>
+  <packaging>jar</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Name of Docker image that will be built. -->
+    <docker.image.name>app</docker.image.name>
+    <!-- Directory that holds Docker file and static content necessary to 
+      build the Docker image. -->
+    <docker.image.src.root>src/main/resources/docker</docker.image.src.root>
+    <!-- Directory to which the Docker image artifacts and the Docker file 
+      will be copied to and which will serve as the root directory when building 
+      the Docker image. -->
+    <docker.build.directory>${project.build.directory}/docker</docker.build.directory>
   </properties>
   <dependencies>
     <dependency>
@@ -73,9 +83,84 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <configuration>
+          <imageName>web</imageName>
+          <dockerDirectory>src/main/docker</dockerDirectory>
+          <resources>
+            <resource>
+              <targetPath>/</targetPath>
+              <directory>${project.build.directory}</directory>
+              <include>${project.build.finalName}.jar</include>
+            </resource>
+          </resources>
+        </configuration>
       </plugin>
+      <!-- Copy the JAR file containing the Spring Boot application to the 
+        application/lib directory. -->
+      <!-- <plugin> -->
+      <!-- <groupId>org.apache.maven.plugins</groupId> -->
+      <!-- <artifactId>maven-dependency-plugin</artifactId> -->
+      <!-- <executions> -->
+      <!-- <execution> -->
+      <!-- <id>copy</id> -->
+      <!-- <phase>package</phase> -->
+      <!-- <goals> -->
+      <!-- <goal>copy</goal> -->
+      <!-- </goals> -->
+      <!-- <configuration> -->
+      <!-- <artifactItems> -->
+      <!-- <artifactItem> -->
+      <!-- Specify groupId, artifactId, version and type for the artifact 
+        you want to package in the Docker image. In the case of a Spring Boot application, 
+        these are the same as the project group id, artifact id and version. -->
+      <!-- <groupId>${project.groupId}</groupId> -->
+      <!-- <artifactId>${project.artifactId}</artifactId> -->
+      <!-- <version>${project.version}</version> -->
+      <!-- <type>jar</type> -->
+      <!-- <overWrite>true</overWrite> -->
+      <!-- <outputDirectory>${docker.build.directory}/application/lib</outputDirectory> -->
+      <!-- Specify the destination name as to have one and the same name 
+        to refer to in the Docker file. -->
+      <!-- <destFileName>springboot-webapp.jar</destFileName> -->
+      <!-- </artifactItem> -->
+      <!-- Add additional artifacts to be packaged in the Docker image here. -->
+      <!-- </artifactItems> -->
+      <!-- <outputDirectory>${docker.build.directory}</outputDirectory> -->
+      <!-- <overWriteReleases>true</overWriteReleases> -->
+      <!-- <overWriteSnapshots>true</overWriteSnapshots> -->
+      <!-- </configuration> -->
+      <!-- </execution> -->
+      <!-- </executions> -->
+      <!-- </plugin> -->
+      <!-- Build the Docker image. -->
+      <!-- <plugin> -->
+      <!-- <groupId>com.spotify</groupId> -->
+      <!-- <artifactId>dockerfile-maven-plugin</artifactId> -->
+      <!-- <version>1.2.2</version> -->
+      <!-- <executions> -->
+      <!-- <execution> -->
+      <!-- <id>default</id> -->
+      <!-- <phase>package</phase> -->
+      <!-- <goals> -->
+      <!-- <goal>build</goal> -->
+      <!-- </goals> -->
+      <!-- </execution> -->
+      <!-- </executions> -->
+      <!-- <configuration> -->
+      <!-- <contextDirectory>${project.build.directory}/docker</contextDirectory> -->
+      <!-- <writeTestMetadata>false</writeTestMetadata> -->
+      <!-- <dockerInfoDirectory></dockerInfoDirectory> -->
+      <!-- <verbose>true</verbose> -->
+      <!-- <forceCreation>true</forceCreation> -->
+      <!-- <imageName>${docker.image.name}</imageName> -->
+      <!-- <repository>${docker.image.name}</repository> -->
+      <!-- <pullNewerImage>false</pullNewerImage> -->
+      <!-- <dockerImageTags>${project.version}</dockerImageTags> -->
+      <!-- <dockerDirectory>${project.build.directory}/docker</dockerDirectory> -->
+      <!-- </configuration> -->
+      <!-- </plugin> -->
     </plugins>
   </build>
   <profiles>
@@ -108,6 +193,48 @@
             <configuration>
               <yarnVersion>v1.7.0</yarnVersion>
               <nodeVersion>${node.version}</nodeVersion>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>buildDocker</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>remove-image</id>
+                <phase>clean</phase>
+                <goals>
+                  <goal>removeImage</goal>
+                </goals>
+                <configuration>
+                  <imageName>integration</imageName>
+                  <imageTags>
+                    <imageTag>latest</imageTag>
+                  </imageTags>
+                  <verbose>true</verbose>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <configuration>
+              <imageName>flight</imageName>
+              <dockerDirectory>src/main/docker</dockerDirectory>
+              <resources>
+                <resource>
+                  <targetPath>/</targetPath>
+                  <directory>${project.build.directory}</directory>
+                  <include>${project.build.finalName}.jar</include>
+                </resource>
+              </resources>
             </configuration>
           </plugin>
         </plugins>

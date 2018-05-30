@@ -10,6 +10,7 @@
     </parent>
     <artifactId>proactive-configuration</artifactId>
     <name>proactive-configuration</name>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
